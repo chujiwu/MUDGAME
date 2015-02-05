@@ -1,36 +1,92 @@
 package personalproj.chujiwu.mudapp;
 
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
 
+import personalproj.chujiwu.common.CommonUtil;
+import personalproj.chujiwu.env.EnvConstant;
+
 public class EventConverter {
-	
+
+	List<Document> docList = null;
+
 	public void xml2events(HashMap<String, GameEvent> events) {
-		// TODO Auto-generated method stub
-//		SAXBuilder builder = new SAXBuilder();
-//		  Document doc = builder.build("src/xml/po.xml");//获得文档对象
-//		  Element root = doc.getRootElement();//获得根节点
-//		  
-//		  //添加新元素
-//		  Element element = new Element("person");
-//		  element.setAttribute("id", "3");
-//		  Element element1 = new Element("username");
-//		  element1.setText("zhangdaihao");
-//		  Element element2 = new Element("password");
-//		  element2.setText("mima");
-//		  element.addContent(element1);
-//		  element.addContent(element2);
-//		  root.addContent(element);
-//		  doc.setRootElement(root);
-//		  
-//		  //文件处理
-//		  XMLOutputter out = new XMLOutputter();
-//		  out.output(doc, new FileOutputStream("src/xml/po.xml"));
+		try {
+			init();
+		} catch (Exception e) {
+			// TODO throw new Exception
+		}
+		if(docList != null){
+			for(Document doc : docList){
+				
+			}
+		}
+		try {
+			SAXBuilder builder = new SAXBuilder();
+			Document doc = builder.build("src/xml/po.xml");// 获得文档对象
+			Element root = doc.getRootElement();// 获得根节点
+
+			// 添加新元素
+			Element element = new Element("person");
+			element.setAttribute("id", "3");
+			Element element1 = new Element("username");
+			element1.setText("zhangdaihao");
+			Element element2 = new Element("password");
+			element2.setText("mima");
+			element.addContent(element1);
+			element.addContent(element2);
+			root.addContent(element);
+			doc.setRootElement(root);
+
+			// 文件处理
+			XMLOutputter out = new XMLOutputter();
+			out.output(doc, new FileOutputStream("src/xml/po.xml"));
+		} catch (Exception e) {
+
+		}
+	}
+
+	private void init() throws JDOMException, IOException {
+		List<Document> fileList = new ArrayList<Document>(0);
+		File[] files = getXmlFiles();
+		if (files != null) {
+			for (File file : files) {
+				SAXBuilder builder = new SAXBuilder();
+				Document doc = builder.build(EnvConstant.XMLFILEPATH
+						+ File.separator + file.getName());
+				fileList.add(doc);
+			}
+		}
+	}
+
+	private File[] getXmlFiles() {
+		boolean hasXmlFile = false;
+		File[] xmlFiles = null;
+		if (CommonUtil.isFolderExist(EnvConstant.XMLFILEPATH)) {
+			File path = new File(EnvConstant.XMLFILEPATH);
+			xmlFiles = path.listFiles();
+			if (xmlFiles.length != 0) {
+				for (File file : xmlFiles) {
+					if (file.getName().endsWith(".xml")) {
+						hasXmlFile = true;
+					}
+				}
+			}
+		}
+		if (hasXmlFile) {
+			return xmlFiles;
+		}
+		return null;
 	}
 
 }

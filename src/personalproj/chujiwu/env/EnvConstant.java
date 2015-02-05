@@ -8,6 +8,8 @@ public class EnvConstant {
 	
 	public static String SAVEDATAPATH = CONFFILEPATH + "data" + File.separator + "savedata.dat";
 	
+	public static String XMLFILEPATH = System.getProperty("user.dir") + File.separator + "xml";
+	
 	enum ConfigFile{
 		GAMESETTING("gamesetting.conf");
 		

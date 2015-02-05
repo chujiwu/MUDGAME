@@ -8,6 +8,15 @@ public class CommonUtil {
 	 * @param fileName 文件名称（包含路径名）
 	 * @return true:文件存在 false:文件不存在
 	 */
+	
+	public static boolean isFolderExist(String folderPath){
+		File folder = new File(folderPath);
+		if(folder.exists() && folder.isDirectory()){
+			return true;
+		}
+		return false;
+	}
+	
 	public static boolean isFileExist(String fileName) {
 		File f = new File(fileName);
 		if(f.exists() && f.toString().endsWith(".conf")){
