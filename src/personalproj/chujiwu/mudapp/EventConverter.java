@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -26,9 +27,9 @@ public class EventConverter {
 		} catch (Exception e) {
 			// TODO throw new Exception
 		}
-		if(docList != null){
-			for(Document doc : docList){
-				
+		if (docList != null) {
+			for (Document doc : docList) {
+				doc2events(doc, events);
 			}
 		}
 		try {
@@ -57,7 +58,7 @@ public class EventConverter {
 	}
 
 	private void init() throws JDOMException, IOException {
-		List<Document> fileList = new ArrayList<Document>(0);
+		List<Document> fileList = new ArrayList<Document>();
 		File[] files = getXmlFiles();
 		if (files != null) {
 			for (File file : files) {
@@ -89,4 +90,23 @@ public class EventConverter {
 		return null;
 	}
 
+	private void doc2events(Document doc, HashMap<String, GameEvent> events) {
+		Element root = doc.getRootElement();
+		if (root.getName() == "Events") {
+			List<Element> eleList = root.getChildren();
+			for (Element ele : eleList) {
+				element2event(ele, events);
+			}
+		}
+	}
+
+	private void element2event(Element ele, HashMap<String, GameEvent> events) {
+		List<Attribute> attrs = ele.getAttributes();
+		for(Attribute attr: attrs){
+			GameEvent gameEvent = new GameEvent();
+			if(attr.getName().equalsIgnoreCase(ElementConstant.CLAZZ)){
+				gameEvent.setCLAZZ(attr.getValue());
+			}
+		}
+	}
 }

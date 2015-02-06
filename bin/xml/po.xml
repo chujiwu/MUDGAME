@@ -1,2 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<person id="3"><username>zhangdaihao</username><password>mima</password></person>
+<EVENTS>
+	<EVENT_001>
+		<TEXT_001 type="String">
+			你遇到了一个强盗，他打算打劫你！
+		</TEXT_001>
+		<SELECTION_001 type="Boolean">
+			<TRUE>迎击！</TRUE>
+			<ELSE>逃离！</ELSE>
+		<CONDITION type="Integer">
+			<TRUE>0</TRUE>
+		</CONDITION> 
+		</SELECTION_001>
+	</EVENT_001>
+</EVENTS>
